@@ -1,4 +1,4 @@
-// By :  Muhmmad Farraj || Somaia Omar 
+// By :  Muhmmad Farraj && Somaia Omar 
 #include <bits/stdc++.h>
 using namespace std;
 
