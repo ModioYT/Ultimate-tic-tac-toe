@@ -1,7 +1,6 @@
 // By :  Muhmmad Farraj && Somaia Omar 
 #include <bits/stdc++.h>
 using namespace std;
-
 class Board {
 	char board[9];
 	vector<int> x, o;
