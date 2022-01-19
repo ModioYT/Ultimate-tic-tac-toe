@@ -512,11 +512,20 @@ class Ultimate {
 	Board B[9];
 	bool turn;
 	map<int,int> Wx, Wo, Tie;
+	    int diff;
   public:
 	void Undo(int Board, int Index, int Turn){
 	  B[Board - 1].undo(Index, Turn);
 	}
 	Ultimate() {
+		 cout<<"choose the difficulty level From 1 to 7 (1 is the weakest , 7 is the strongest)"<<endl;
+
+    while(true){
+      cin>>diff;
+      if(diff>0 && diff<8)
+      break;
+ cout<<"choose the difficulty level From 1 to 7 (1 is the weakest , 7 is the strongest)"<<endl;
+    }
 		turn = 1;
 		for (int i = 1; i <= 9; i++) {
 			Wx[i] = -1;
