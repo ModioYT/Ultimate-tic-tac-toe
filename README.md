@@ -78,7 +78,8 @@ First of all, stores the positions of  X and O in array , then check if there is
   Loops from 0 to 9 and  if Scores[i] is not equal to -999999 add the Scores[i] value to AVG , finally returns AVG.</li>
   <li>1All function :takes one parameter (int index), define a vector of type int with size zero called emp and calls the function AvailableBoard with parameter index if the result was true returns emp, otherwise calls the Empty function from B[index-1] , assign it to emp  and returns emp.</li>
   <li><h3>Minimax function (Alpha Beta Pruning ) : takes six parameters (int table, int Index, int Depth, int alpha, int beta, bool Turn)</h3>
-  First of all, we defined int Max = - INT_MAX, Min = INT_MAX, the base case is if the Depth = zero, it returns the result of calling the function Calculator , If the Turn was one:
+  First of all, we defined int Max = - INT_MAX, Min = INT_MAX, the base case is if the Depth = zero, it returns the result of calling the function Calculator.
+  <h4> If the Turn was one:<h4>
     <ul>
       <li>Calls the function play in the object B[table] and sends Index and Turn.</li>
       <li>Calls the CheckerBoard function.</li>
@@ -93,14 +94,73 @@ First of all, stores the positions of  X and O in array , then check if there is
           <li>If (beta <= alpha) breaks from the loop.</li>
           <li>Return Min.</li>
         </ul>
-        If the result of the AvailableBoard function was false : 
+        If the result of the AvailableBoard function was false :
+        <ul>
+          <li>Loops from 1-9, we defined a vector of int (em) and assign the result of calling the All(iterator).</li>
+          <li>Loops on the emp elements { for(auto x : emp)}, defined int v and assign the result of the Minmax(Index-1, x, Depth-1, alpha, beta, !Turn).</li>
+          <li>Inside the loop; if the Depth != 1, calls the Undo(Index, x, !Turn).</li>
+          <li>Inside the loop; calls the CheckerBoard function, assign the minimum value between v & Min to Min, Min = min(v,Min), assign the minimum value between beta & Min to beta, beta = min(beta,Min).</li>
+          <li>If (beta <= alpha) breaks from the loop.</li>
+          <li>Return Min.</li>
+        </ul>
     </ul>
+      <h4> If the Turn was zero:<h4>
+        <ul>
+          <li>Calls the function play in the object B[table] and sends Index and Turn.</li>
+          <li>Calls the CheckerBoard function.</li>
+          <li>We defined an int (Score) and saved the result of calling the BigWin function in it, if the Score != 100 return the Score.</li>
+          <li>We defined a vector of int (emp), we check if the board is available by calling AvailableBoard function and pass the Index as a parameter, if it is true : 
+          <ul>
+            <li>Assign B[Index-1].Empty() to emp.</li>
+            <li>Loops on the emp elements { for(auto x : emp)}, defined int v and assign the result of the Minmax(Index-1, x, Depth-1, alpha, beta, !Turn).</li>
+            <li>Inside the loop; if the Depth != 1, calls the Undo(Index, x, !Turn).</li>
+            <li>Inside the loop; calls the CheckerBoard function, assign the maximum value between v & Max to Max, Max = max(v,Max), assign the maximum value between alpha & Max to alpha, alpha = max(alpha,Max).</li>
+            <li>If (beta <= alpha) breaks from the loop.</li>
+            <li>Return Max.</li>
+          </ul>
+If the result of the AvailableBoard function was false : 
+          <ul>
+            <li>Loops from 1-9, we defined a vector of int (em) and assign the result of calling the All(iterator). Loops on the emp elements { for(auto x : emp)}, defined int v and assign the result of the Minmax(Index-1, x, Depth-1, alpha, beta, !Turn).</li>
+            <li>Inside the loop; if the Depth != 1, calls the Undo(Index, x, !Turn).</li>
+            <li>Inside the loop; calls the CheckerBoard function, assign the maximum value between v & Max to Max, Max = max(v,Max), assign the maximum value between alpha & Max to alpha, alpha = max(alpha,Max).</li>
+            <li>If (beta <= alpha) breaks from the loop.</li>
+            <li>Return Max.</li>
+          </ul>
+        </li>
+        </ul>
   </li>
-  <li></li>
-  <li></li>
-  
-
-
-
+  <li><h3>Start function:</h3> basically it starts the game, ask the user to input which board he want to play on and on which index.<br>
+We defined a bool called taken which represents if the board was available to play or not.
+Loops with true if taken was true this means the board is not available to play so feel free to choose a new board.
+After you choose an index to play on the board calls the function play on the chosen board and pass the index.
+Calls the CheckerBoard function to update the maps (Wx,Wo,Tie) , if the BigWin was 10 print X IS THE CHAMPION and breaks , if BigWin was -10 print O IS THE CHAMPION and breaks , if BigWin was zero print Tie and breaks, else assign !turn to turn.
+Define int best and assign it to -9999999 , int ind and assign it to -1, vector<int> emp.<br>
+<b>If AvailableBoard(Index) was true:<b>
+  <ul>
+    <li>Assign B[Index – 1].empty() to emp.</li>
+    <li>Loops on the emp elements { for(auto x : emp)}, define int v , assign Minmax(Index – 1, x , 6 , -999999 , 999999 , turn) to it.</li>
+    <li>Calls the Undo function and pass the Index, x, turn.</li>
+    <li>Calls the CheckerBoard function.</li>
+    <li>If v < best assign v to best and x to  ind.</li>
+  </ul>
+  <b>If AvailableBoard(Index) was false:<b>
+    <ul>
+      <li>Loops from 1 to 9.</li>
+      <li>Calls the All (iterator) and assign it to em.</li>
+      <li>Assign B[Index – 1].empty() to emp.</li>
+      <li>Loops on the emp elements { for(auto x : emp)}, define int v , assign Minmax(Index – 1, x , 6 , -999999 , 999999 , turn) to it.</li>
+      <li>Calls the Undo function and pass the Index, x, turn.</li>
+      <li>Calls the CheckerBoard function.</li>
+      <li>If v < best assign v to best and x to  ind.</li>
+      Then prints where the AI move was, and call the function play and pass (Index, ind, turn), call the function Print to print the board.<br>
+Assign !turn to turn, calls the function CheckerBoard to update the maps , and then checks if the board is taken or not by using if  statement depends on the maps.<br>
+Finally if the BigWin was 10 print X IS THE CHAMPION and breaks , if BigWin was -10 print O IS THE CHAMPION and breaks , if BigWin was zero print Tie and breaks.<br>
+    </ul>
+  </li>  
 </ol>
-
+<p>
+  In the main just defined an object from Ultimate and call the function Start().
+</p>
+<h1>By :Muhammad Ramadan Farraj & Somaia Omar Hasan AlQiam.<br>
+Supervisor : Dr.Malak Abdullah.
+</h1>
